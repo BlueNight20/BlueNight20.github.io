@@ -15,12 +15,10 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="【深基2.练习6】Apples Prologue &#x2F; 苹果和虫子题目描述小 B 喜欢吃苹果。她现在有 m(1&lt;&#x3D;m&lt;&#x3D;100)个苹果，吃完一个苹果需要花费t(0&lt;&#x3D;t&lt;&#x3D;100)(分钟，吃完一个后立刻开始吃下一个。现在时间过去了s(1&lt;&#x3D;s&lt;&#x3D;10000)分钟，请问她还有几个完整的苹果？ 输入">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="a:\blog\source_posts\IMG_20240620_205909.jpg">
 <meta property="article:published_time" content="2024-06-18T14:05:05.276Z">
-<meta property="article:modified_time" content="2024-06-20T13:01:59.640Z">
+<meta property="article:modified_time" content="2024-06-20T13:17:27.159Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="a:\blog\source_posts\IMG_20240620_205909.jpg">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -169,9 +167,37 @@
 <h3 id="样例输出-1"><a href="#样例输出-1" class="headerlink" title="样例输出 #1"></a>样例输出 #1</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">30</span><br></pre></td></tr></table></figure>
 
 <h2 id="提示"><a href="#提示" class="headerlink" title="提示"></a>提示</h2><p>如果你出现了 RE，不如检查一下被零除？</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="type">float</span> m,t,s,sum=<span class="number">0</span>,sum2=<span class="number">0</span>;</span><br><span class="line">    cin&gt;&gt;m&gt;&gt;t&gt;&gt;s;</span><br><span class="line">    <span class="keyword">if</span>(t==<span class="number">0</span>)&#123;</span><br><span class="line">        cout&lt;&lt;<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    sum=(<span class="type">int</span>)(s/t);</span><br><span class="line">    sum2=s/t;</span><br><span class="line">    <span class="keyword">if</span>((m-sum)&gt;=<span class="number">1</span>&amp;&amp;sum&gt;=<span class="number">1</span>&amp;&amp;sum&lt;sum2)</span><br><span class="line">        cout&lt;&lt;m-sum<span class="number">-1</span>&lt;&lt;endl;</span><br><span class="line">    <span class="keyword">if</span>((m-sum)&gt;=<span class="number">1</span>&amp;&amp;sum&gt;=<span class="number">1</span>&amp;&amp;sum==sum2)</span><br><span class="line">        cout&lt;&lt;m-sum&lt;&lt;endl;</span><br><span class="line">    <span class="keyword">if</span>((m-sum)&lt;<span class="number">0</span>)</span><br><span class="line">        cout&lt;&lt;<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span>(sum&lt;<span class="number">1</span>)</span><br><span class="line">        cout&lt;&lt;m<span class="number">-1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">先把思路搞清楚，写起来并不难。</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="type">float</span> m,t,s,sum=<span class="number">0</span>,sum2=<span class="number">0</span>;</span><br><span class="line">    cin&gt;&gt;m&gt;&gt;t&gt;&gt;s;</span><br><span class="line">    <span class="keyword">if</span>(t==<span class="number">0</span>)&#123;</span><br><span class="line">        cout&lt;&lt;<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    sum=(<span class="type">int</span>)(s/t);</span><br><span class="line">    sum2=s/t;</span><br><span class="line">    <span class="keyword">if</span>((m-sum)&gt;=<span class="number">0</span>&amp;&amp;sum&lt;sum2)</span><br><span class="line">        cout&lt;&lt;m-sum<span class="number">-1</span>&lt;&lt;endl;</span><br><span class="line">    <span class="keyword">if</span>((m-sum)&gt;=<span class="number">0</span>&amp;&amp;sum&gt;=<span class="number">1</span>&amp;&amp;sum==sum2)</span><br><span class="line">        cout&lt;&lt;m-sum&lt;&lt;endl;</span><br><span class="line">    <span class="keyword">if</span>((m-sum)&lt;<span class="number">0</span>)</span><br><span class="line">        cout&lt;&lt;<span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<p><img src="A:\blog\source_posts\IMG_20240620_205909.jpg"></p>
+<ul>
+<li><p><input disabled="" type="checkbox"> 
+t&#x3D;0时，（珍妮码离谱），吃苹果不需要时间，无论什么时间都输出0；</p>
+</li>
+<li><p><input disabled="" type="checkbox"> 
+t&gt;0时，</p>
+<ul>
+<li><p>m-s&#x2F;t&gt;&#x3D;0时，</p>
+<table>
+<thead>
+<tr>
+<th>s&#x2F;t为整数</th>
+<th>m-s&#x2F;t</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>s&#x2F;t不是整数</td>
+<td>说明还有没吃完的，m-s&#x2F;t-1</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>m-s&#x2F;t&lt;0,给定时间可以全部吃完，故输出0</p>
+</li>
+</ul>
+</li>
+<li><p><input disabled="" type="checkbox"> 
+综上，所有情况已经全部列举。</p>
+</li>
+</ul>
 
       
 
