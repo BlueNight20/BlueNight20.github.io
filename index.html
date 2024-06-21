@@ -162,7 +162,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2024/06/20/num-2/">num_2</a>
+      <a class="article-title" href="/2024/06/20/num-2/">指针可以回退，但我们的青春呢？善始善终，最终的结果我（循环）已不再能掌控，需额外判断。</a>
     </h1>
   
 
@@ -175,7 +175,22 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <h1 id="GESP样题-三级-逛商场"><a href="#GESP样题-三级-逛商场" class="headerlink" title="[GESP样题 三级] 逛商场"></a>[GESP样题 三级] 逛商场</h1><h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>小明是个不太有计划的孩子。这不，刚到手的零花钱，就全部拿着逛商场去了。  </p>
+<p>小明的原则很简单，见到想买的物品，只要能买得起，就一定会买下来之后才会继续往前走；如果买不起就直接跳过。</p>
+<p>一天下来，小明到底买了多少物品呢？</p>
+<h2 id="输入格式"><a href="#输入格式" class="headerlink" title="输入格式"></a>输入格式</h2><p>输入共 $3$ 行：</p>
+<p>第一行是一个整数 $N$，表示商场中共有 N种小明想买的物品（1≤N≤100）；</p>
+<p>第二行共有 N个整数，分别表示小明先后见到想买的物品的价格；</p>
+<p>第三行是一个整数 X，表示开始时小明共有 X元零花钱。</p>
+<h2 id="输出格式"><a href="#输出格式" class="headerlink" title="输出格式"></a>输出格式</h2><p>输出 1 行，包含一个整数，表示小明买到的物品数。</p>
+<h2 id="样例-1"><a href="#样例-1" class="headerlink" title="样例 #1"></a>样例 #1</h2><h3 id="样例输入-1"><a href="#样例输入-1" class="headerlink" title="样例输入 #1"></a>样例输入 #1</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">6</span><br><span class="line">7 5 9 10 7 4</span><br><span class="line">30</span><br></pre></td></tr></table></figure>
+
+<h3 id="样例输出-1"><a href="#样例输出-1" class="headerlink" title="样例输出 #1"></a>样例输出 #1</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">4</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;iostream&gt;</span><br><span class="line">using namespace std;</span><br><span class="line"></span><br><span class="line">int main()&#123;</span><br><span class="line">    int n,change,count=0,sum=0,temp;</span><br><span class="line">    cin&gt;&gt;n;</span><br><span class="line">    int a[n];</span><br><span class="line">    for (int i = 0; i &lt; n; ++i) &#123;</span><br><span class="line">        cin&gt;&gt;a[i];</span><br><span class="line">    &#125;</span><br><span class="line">    cin&gt;&gt;change;</span><br><span class="line">    for (int i = 0; i &lt; n; ++i) &#123;</span><br><span class="line">        if (sum&lt;=change)&#123;</span><br><span class="line">            count++;</span><br><span class="line">            sum+=a[i];</span><br><span class="line">        &#125; else&#123;</span><br><span class="line">            i--;</span><br><span class="line">            sum-=a[i];//需要在下一次循环判断是否超过预算，超过后指针回退，删除买不起的物品，继续前进。</span><br><span class="line">            count--;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    if(sum&gt;change)//需要对加上最后一个物品是否超过预算进行判断，若大于change，则舍弃最后一件</span><br><span class="line">        count--;</span><br><span class="line">    cout&lt;&lt;count;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">这个题如果不要求按顺序的话就会简单很多了，可以先排序在逐个元素相加就相对比较简单。</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://dl4.weshineapp.com/gif/20220307/e0e8760f2838f4a0ea2b4e74fb4e0126.gif?f=micro_" alt="img"></p>
+
       
 
       
