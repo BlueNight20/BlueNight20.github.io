@@ -6,17 +6,17 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>Dusk的博客</title>
+  <title>洛谷P5709 | Dusk的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="【深基2.练习6】Apples Prologue &#x2F; 苹果和虫子题目描述小 B 喜欢吃苹果。她现在有 m(1&lt;&#x3D;m&lt;&#x3D;100)个苹果，吃完一个苹果需要花费t(0&lt;&#x3D;t&lt;&#x3D;100)(分钟，吃完一个后立刻开始吃下一个。现在时间过去了s(1&lt;&#x3D;s&lt;&#x3D;10000)分钟，请问她还有几个完整的苹果？ 输入">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Dusk的博客">
+<meta property="og:title" content="洛谷P5709">
 <meta property="og:url" content="http://example.com/2024/06/18/hello-world/index.html">
 <meta property="og:site_name" content="Dusk的博客">
 <meta property="og:description" content="【深基2.练习6】Apples Prologue &#x2F; 苹果和虫子题目描述小 B 喜欢吃苹果。她现在有 m(1&lt;&#x3D;m&lt;&#x3D;100)个苹果，吃完一个苹果需要花费t(0&lt;&#x3D;t&lt;&#x3D;100)(分钟，吃完一个后立刻开始吃下一个。现在时间过去了s(1&lt;&#x3D;s&lt;&#x3D;10000)分钟，请问她还有几个完整的苹果？ 输入">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2024-06-18T14:05:05.276Z">
-<meta property="article:modified_time" content="2024-06-20T13:17:27.159Z">
+<meta property="article:published_time" content="2024-06-18T15:25:59.000Z">
+<meta property="article:modified_time" content="2024-06-20T15:29:29.583Z">
 <meta property="article:author" content="Dusk">
 <meta property="article:tag" content="蒟蒻一枚">
 <meta name="twitter:card" content="summary">
@@ -158,6 +158,21 @@
             <article id="post-hello-world" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      洛谷P5709
+    </h1>
+  
+
+        
+        <a href="/2024/06/18/hello-world/" class="archive-article-date">
+  	<time datetime="2024-06-18T15:25:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-06-18</time>
+</a>
+        
+      </header>
+    
     <div class="article-entry" itemprop="articleBody">
       
         <h1 id="【深基2-练习6】Apples-Prologue-苹果和虫子"><a href="#【深基2-练习6】Apples-Prologue-苹果和虫子" class="headerlink" title="【深基2.练习6】Apples Prologue &#x2F; 苹果和虫子"></a>【深基2.练习6】Apples Prologue &#x2F; 苹果和虫子</h1><h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>小 B 喜欢吃苹果。她现在有 m(1&lt;&#x3D;m&lt;&#x3D;100)个苹果，吃完一个苹果需要花费t(0&lt;&#x3D;t&lt;&#x3D;100)(分钟，吃完一个后立刻开始吃下一个。现在时间过去了s(1&lt;&#x3D;s&lt;&#x3D;10000)分钟，请问她还有几个完整的苹果？</p>
@@ -215,9 +230,14 @@ t&gt;0时，</p>
                   <p class="reward-p"><i class="icon icon-quo-left"></i>欲买桂花同载酒，终不似，少年游！<i class="icon icon-quo-right"></i></p>
                   <div class="reward-box">
                     
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assets/reward_zfb.jpg">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
                     
                     <div class="reward-box-item">
-                      <img class="reward-img" src="/assets/reward.png">
+                      <img class="reward-img" src="/assets/reward_wx.jpg">
                       <span class="reward-type">微信</span>
                     </div>
                     
@@ -295,6 +315,20 @@ t&gt;0时，</p>
 </article>
 
   
+<nav id="article-nav">
+  
+    <a href="/2024/06/20/num-2/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          num_2
+        
+      </div>
+    </a>
+  
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -339,6 +373,124 @@ t&gt;0时，</p>
       	</div>
     </div>
   </div>
+<!-- 添加鼠标彩虹星星掉落跟随效果 -->
+
+<script>
+/*!
+* Fairy Dust Cursor.js
+* - 90's cursors collection
+* -- https://github.com/tholman/90s-cursor-effects
+* -- http://codepen.io/tholman/full/jWmZxZ/
+*/
+
+//鼠标点击雪花特效
+(function fairyDustCursor() {
+var possibleColors = ["#D61C59", "#E7D84B", "#1B8798"]
+var width = window.innerWidth;
+var height = window.innerHeight;
+var cursor = {x: width/2, y: width/2};
+var particles = [];
+function init() {
+bindEvents();
+loop();
+}
+// Bind events that are needed
+function bindEvents() {
+document.addEventListener('mousemove', onMouseMove);
+document.addEventListener('touchmove', onTouchMove);
+document.addEventListener('touchstart', onTouchMove);
+window.addEventListener('resize', onWindowResize);
+}
+function onWindowResize(e) {
+width = window.innerWidth;
+height = window.innerHeight;
+}
+function onTouchMove(e) {
+if( e.touches.length > 0 ) {
+for( var i = 0; i < e.touches.length; i++ ) {
+addParticle( e.touches[i].clientX, e.touches[i].clientY, possibleColors[Math.floor(Math.random()*possibleColors.length)]);
+}
+}
+}
+function onMouseMove(e) {
+cursor.x = e.clientX;
+cursor.y = e.clientY;
+addParticle( cursor.x, cursor.y, possibleColors[Math.floor(Math.random()*possibleColors.length)]);
+}
+function addParticle(x, y, color) {
+var particle = new Particle();
+particle.init(x, y, color);
+particles.push(particle);
+}
+function updateParticles() {
+// Updated
+for( var i = 0; i < particles.length; i++ ) {
+particles[i].update();
+}
+// Remove dead particles
+for( var i = particles.length -1; i >= 0; i-- ) {
+if( particles[i].lifeSpan < 0 ) {
+particles[i].die();
+particles.splice(i, 1);
+}
+}
+}
+function loop() {
+requestAnimationFrame(loop);
+updateParticles();
+}
+/**
+* Particles
+*/
+function Particle() {
+this.character = "*";
+this.lifeSpan = 120; //ms
+this.initialStyles ={
+"position": "fixed",
+"top": "0", //必须加
+"display": "block",
+"pointerEvents": "none",
+"z-index": "10000000",
+"fontSize": "20px",
+"will-change": "transform"
+};
+// Init, and set properties
+this.init = function(x, y, color) {
+this.velocity = {
+x: (Math.random() < 0.5 ? -1 : 1) * (Math.random() / 2),
+y: 1
+};
+this.position = {x: x - 10, y: y - 20};
+this.initialStyles.color = color;
+console.log(color);
+this.element = document.createElement('span');
+this.element.innerHTML = this.character;
+applyProperties(this.element, this.initialStyles);
+this.update();
+document.body.appendChild(this.element);
+};
+this.update = function() {
+this.position.x += this.velocity.x;
+this.position.y += this.velocity.y;
+this.lifeSpan--;
+this.element.style.transform = "translate3d(" + this.position.x + "px," + this.position.y + "px,0) scale(" + (this.lifeSpan / 120) + ")";
+}
+this.die = function() {
+this.element.parentNode.removeChild(this.element);
+}
+}
+/**
+* Utils
+*/
+// Applies css `properties` to an element.
+function applyProperties( target, properties ) {
+for( var key in properties ) {
+target.style[ key ] = properties[ key ];
+}
+}
+init();
+})();</script>
+<script src="/js/cursor.js"></script>
 </footer>
     </div>
     <script>
