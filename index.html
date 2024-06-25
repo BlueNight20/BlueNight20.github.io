@@ -155,6 +155,78 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-三角函数" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2024/06/25/%E4%B8%89%E8%A7%92%E5%87%BD%E6%95%B0/">三角函数</a>
+    </h1>
+  
+
+        
+        <a href="/2024/06/25/%E4%B8%89%E8%A7%92%E5%87%BD%E6%95%B0/" class="archive-article-date">
+  	<time datetime="2024-06-25T08:57:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-06-25</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="三角函数"><a href="#三角函数" class="headerlink" title="三角函数"></a>三角函数</h1><h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>输入一组勾股数 a,b,c（a，b，c互不相同），用分数格式输出其较小锐角的正弦值。（<strong>要求约分</strong>。）</p>
+<h2 id="输入格式"><a href="#输入格式" class="headerlink" title="输入格式"></a>输入格式</h2><p>一行，包含三个正整数，即勾股数 a,b,c（无大小顺序）。</p>
+<h2 id="输出格式"><a href="#输出格式" class="headerlink" title="输出格式"></a>输出格式</h2><p>一行，包含一个分数，即较小锐角的正弦值</p>
+<h2 id="样例-1"><a href="#样例-1" class="headerlink" title="样例 #1"></a>样例 #1</h2><h3 id="样例输入-1"><a href="#样例输入-1" class="headerlink" title="样例输入 #1"></a>样例输入 #1</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">3 5 4</span><br></pre></td></tr></table></figure>
+
+<h3 id="样例输出-1"><a href="#样例输出-1" class="headerlink" title="样例输出 #1"></a>样例输出 #1</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">3/5</span><br></pre></td></tr></table></figure>
+
+<h2 id="提示"><a href="#提示" class="headerlink" title="提示"></a>提示</h2><p>数据保证：a,b,c为正整数且 属于 [1,10^9]。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;iostream&gt;</span><br><span class="line">#include &lt;valarray&gt;</span><br><span class="line">#include &lt;vector&gt;</span><br><span class="line">#include &lt;iomanip&gt;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line">int gcd(int a,int b)&#123;   //gcd(a,b)=gcd(a-b,b)(a&gt;b);</span><br><span class="line">    while (a!=b)&#123;//  </span><br><span class="line">        if (a&gt;b)</span><br><span class="line">            a=a-b;</span><br><span class="line">        else</span><br><span class="line">            b=b-a;</span><br><span class="line">    &#125;</span><br><span class="line">    return a;</span><br><span class="line">&#125;</span><br><span class="line">int seekMaxy(int a,int b)&#123;//辗转相除法，被除数与除数，除数和余数有相同的最大公约数。</span><br><span class="line">    int r=0;</span><br><span class="line">    while (r=a%b)&#123;</span><br><span class="line">        a=b;</span><br><span class="line">        b=r;</span><br><span class="line">    &#125;</span><br><span class="line">    return b;</span><br><span class="line">&#125;</span><br><span class="line">int main() &#123;</span><br><span class="line">    int a,b,c;</span><br><span class="line">    float d,e,f;</span><br><span class="line">    float sin1,sin2;</span><br><span class="line">    cin&gt;&gt;a&gt;&gt;b&gt;&gt;c;</span><br><span class="line">    d=a,e=b,f=c;</span><br><span class="line">    if (d&gt;b&amp;&amp;d&gt;c)&#123;</span><br><span class="line">        sin1=e/d;</span><br><span class="line">        sin2=f/d;</span><br><span class="line">        if (sin1&lt;sin2)</span><br><span class="line">        &#123;</span><br><span class="line">            int chushu=seekMaxy(b,a);</span><br><span class="line">            cout&lt;&lt;b/chushu&lt;&lt;&#x27;/&#x27;&lt;&lt;a/chushu;</span><br><span class="line">        &#125;</span><br><span class="line">        else&#123;</span><br><span class="line">            int chushu=seekMaxy(a,c);</span><br><span class="line">            cout&lt;&lt;c/chushu&lt;&lt;&#x27;/&#x27;&lt;&lt;a/chushu;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    if (e&gt;d&amp;&amp;e&gt;f)&#123;</span><br><span class="line">        sin1=d/e;</span><br><span class="line">        sin2=f/e;</span><br><span class="line">        if (sin1&lt;sin2)</span><br><span class="line">        &#123;</span><br><span class="line">            int chushu=gcd(a,b);</span><br><span class="line">            cout&lt;&lt;a/chushu&lt;&lt;&#x27;/&#x27;&lt;&lt;b/chushu;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        else</span><br><span class="line">        &#123;</span><br><span class="line">            int chushu=gcd(b,c);</span><br><span class="line">            cout&lt;&lt;c/chushu&lt;&lt;&#x27;/&#x27;&lt;&lt;b/chushu;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    if (f&gt;d&amp;&amp;f&gt;e)&#123;</span><br><span class="line">        sin1=d/f;</span><br><span class="line">        sin2=e/f;</span><br><span class="line">        if (sin1&lt;sin2)&#123;</span><br><span class="line">            int chushu=gcd(a,c);</span><br><span class="line">            cout&lt;&lt;a/chushu&lt;&lt;&#x27;/&#x27;&lt;&lt;c/chushu;</span><br><span class="line">        &#125;</span><br><span class="line">        else&#123;</span><br><span class="line">            int chushu=gcd(b,c);</span><br><span class="line">            cout&lt;&lt;b/chushu&lt;&lt;&#x27;/&#x27;&lt;&lt;c/chushu;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2024/06/25/%E4%B8%89%E8%A7%92%E5%87%BD%E6%95%B0/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-num-2" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
