@@ -1,0 +1,185 @@
+<div id="bluenight-personal-home">
+  <style>
+    #bluenight-personal-home {
+      --page: #070e14;
+      --surface: #141d26;
+      --surface-raised: #1a2632;
+      --surface-soft: #202f3e;
+      --text: #eef5fb;
+      --muted: #91a1b1;
+      --blue: #59acfa;
+      --blue-dark: #20384d;
+      --line: #293947;
+      color: var(--text);
+      font-family: Inter, "Microsoft YaHei", sans-serif;
+    }
+    #bluenight-personal-home .page {
+      overflow: hidden;
+      border-radius: 14px;
+      background: var(--page);
+      box-shadow: 0 18px 48px rgba(0, 0, 0, .3);
+    }
+    #bluenight-personal-home .banner {
+      min-height: 280px;
+      padding: 16px 24px 28px;
+      background:
+        linear-gradient(180deg, rgba(5, 12, 18, .12), rgba(5, 12, 18, .34)),
+        radial-gradient(circle at 53% 43%, rgba(255, 229, 171, .92), transparent 17%),
+        radial-gradient(circle at 27% 31%, rgba(222, 127, 96, .76), transparent 29%),
+        radial-gradient(circle at 80% 66%, rgba(43, 108, 159, .88), transparent 35%),
+        linear-gradient(135deg, #6c7384 0%, #d3866b 28%, #e6b078 48%, #2e648d 73%, #102b43 100%);
+    }
+    #bluenight-personal-home .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 13px 17px;
+      border-radius: 13px;
+      background: rgba(11, 20, 28, .95);
+      color: #c8d3dc;
+      font-size: 12px;
+    }
+    #bluenight-personal-home .brand { color: var(--blue); font-weight: 700; }
+    #bluenight-personal-home .nav-links { display: flex; flex-wrap: wrap; gap: 18px; }
+    #bluenight-personal-home .hero {
+      max-width: 920px;
+      margin: 58px auto 0;
+    }
+    #bluenight-personal-home .hero-copy {
+      width: min(620px, 82%);
+      padding: 20px 22px;
+      border-radius: 14px;
+      background: rgba(9, 18, 26, .72);
+      backdrop-filter: blur(10px);
+    }
+    #bluenight-personal-home .hero h2 { margin: 0 0 8px; color: #fff; font-size: 27px; }
+    #bluenight-personal-home .hero p { margin: 0; color: #dbe6ef; font-size: 13px; }
+    #bluenight-personal-home .hero-actions { display: flex; gap: 9px; margin-top: 16px; }
+    #bluenight-personal-home .hero-button { padding: 8px 12px; border-radius: 8px; background: var(--blue); color: #07121a; font-size: 11px; font-weight: 700; }
+    #bluenight-personal-home .hero-button.secondary { background: rgba(230, 241, 249, .14); color: #f0f6fb; }
+    #bluenight-personal-home .content {
+      display: grid;
+      grid-template-columns: 260px minmax(0, 1fr);
+      gap: 14px;
+      max-width: 920px;
+      margin: -18px auto 0;
+      padding: 0 18px 28px;
+      position: relative;
+    }
+    #bluenight-personal-home .column { display: grid; align-content: start; gap: 12px; }
+    #bluenight-personal-home .panel { padding: 15px; border-radius: 12px; background: var(--surface); }
+    #bluenight-personal-home .profile { text-align: center; }
+    #bluenight-personal-home .avatar {
+      width: 84px;
+      height: 84px;
+      margin: 0 auto 10px;
+      border-radius: 13px;
+      background: linear-gradient(145deg, #e6edf1 0%, #9aa6af 35%, #243441 36%, #0c141d 72%);
+    }
+    #bluenight-personal-home .profile h3 { margin: 0 0 5px; font-size: 16px; }
+    #bluenight-personal-home .muted { color: var(--muted); font-size: 10px; }
+    #bluenight-personal-home .panel-title { margin: 0 0 10px; font-size: 12px; }
+    #bluenight-personal-home .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+    #bluenight-personal-home .tag { padding: 4px 7px; border-radius: 6px; background: var(--blue-dark); color: #b9dcfa; font-size: 9px; }
+    #bluenight-personal-home .section { margin-bottom: 4px; }
+    #bluenight-personal-home .section-header { display: flex; align-items: center; justify-content: space-between; margin: 0 2px 9px; }
+    #bluenight-personal-home .section-header h3 { margin: 0; font-size: 14px; }
+    #bluenight-personal-home .section-header span { color: var(--blue); font-size: 10px; }
+    #bluenight-personal-home .projects { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 9px; }
+    #bluenight-personal-home .project { min-height: 96px; padding: 12px; border-radius: 10px; background: var(--surface); }
+    #bluenight-personal-home .project-top { display: flex; justify-content: space-between; gap: 7px; margin-bottom: 8px; }
+    #bluenight-personal-home .project strong { font-size: 11px; }
+    #bluenight-personal-home .project-type { color: var(--blue); font-size: 8px; }
+    #bluenight-personal-home .project-footer { margin-top: 12px; color: #aec2d3; font-size: 9px; }
+    #bluenight-personal-home .timeline { display: grid; gap: 11px; border-left: 2px solid var(--line); padding-left: 15px; }
+    #bluenight-personal-home .event { position: relative; }
+    #bluenight-personal-home .event::before { content: ""; position: absolute; left: -19px; top: 4px; width: 7px; height: 7px; border-radius: 50%; background: var(--blue); }
+    #bluenight-personal-home .event strong { display: block; margin-bottom: 3px; font-size: 10px; }
+    #bluenight-personal-home .posts { display: grid; gap: 10px; }
+    #bluenight-personal-home .post { display: grid; grid-template-columns: 86px minmax(0, 1fr) auto; align-items: center; gap: 12px; min-height: 76px; padding: 10px; border-radius: 11px; background: var(--surface); }
+    #bluenight-personal-home .post-image { height: 58px; border-radius: 8px; background: linear-gradient(135deg, var(--surface-soft), #456b8c); }
+    #bluenight-personal-home .post:nth-child(2) .post-image { background: linear-gradient(135deg, #533e62, #344d72); }
+    #bluenight-personal-home .post:nth-child(3) .post-image { background: linear-gradient(135deg, #5c4936, #315a69); }
+    #bluenight-personal-home .post strong { display: block; margin-bottom: 5px; font-size: 12px; }
+    #bluenight-personal-home .post-arrow { display: grid; place-items: center; width: 32px; height: 54px; border-radius: 8px; background: var(--blue-dark); color: var(--blue); }
+    #bluenight-personal-home .footer-note { margin-top: 18px; text-align: center; color: var(--muted); font-size: 9px; }
+    @media (max-width: 720px) {
+      #bluenight-personal-home .content { grid-template-columns: 1fr; margin-top: 0; }
+      #bluenight-personal-home .projects { grid-template-columns: 1fr; }
+      #bluenight-personal-home .hero { margin-top: 36px; }
+      #bluenight-personal-home .hero-copy { width: auto; }
+      #bluenight-personal-home .post { grid-template-columns: 64px minmax(0, 1fr); }
+      #bluenight-personal-home .post-arrow { display: none; }
+    }
+  </style>
+
+  <h2 style="color:var(--foreground)">C 方案整合稿</h2>
+  <p class="subtitle">个人叙事作为第一视觉层，项目和文章共同承接你的技术身份。</p>
+
+  <div class="page">
+    <div class="banner">
+      <div class="nav">
+        <span class="brand">⌂ BlueNight's Blog</span>
+        <div class="nav-links"><span>主页</span><span>归档</span><span>项目</span><span>关于</span><span>GitHub ↗</span></div>
+      </div>
+      <div class="hero">
+        <div class="hero-copy">
+          <h2>你好，我是 BlueNight。</h2>
+          <p>关注自动化渗透测试与多智能体系统，在这里记录研究、工具和一路踩过的坑。</p>
+          <div class="hero-actions"><span class="hero-button">了解我</span><span class="hero-button secondary">最近在做什么</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="content">
+      <aside class="column">
+        <div class="panel profile">
+          <div class="avatar"></div>
+          <h3>小小人仁</h3>
+          <div class="muted">安全研究 · 工具开发 · 持续学习</div>
+        </div>
+        <div class="panel">
+          <h4 class="panel-title">现在</h4>
+          <div class="muted">正在整理多智能体自动化渗透测试的实验过程与工程实践。</div>
+        </div>
+        <div class="panel">
+          <h4 class="panel-title">关注方向</h4>
+          <div class="tags"><span class="tag">Pentest</span><span class="tag">Multi-Agent</span><span class="tag">LLM</span><span class="tag">Web Security</span><span class="tag">Python</span></div>
+        </div>
+      </aside>
+
+      <main class="column">
+        <section class="section">
+          <div class="section-header"><h3>精选项目</h3><span>在 GitHub 查看全部 →</span></div>
+          <div class="projects">
+            <div class="project"><div class="project-top"><strong>VulnBot</strong><span class="project-type">研究项目 · Fork</span></div><div class="muted">面向自主渗透测试的多智能体协作框架。</div><div class="project-footer">Python · Multi-Agent</div></div>
+            <div class="project"><div class="project-top"><strong>wxchat</strong><span class="project-type">个人项目</span></div><div class="muted">一个微信聊天界面模拟与交互实验。</div><div class="project-footer">HTML · Frontend</div></div>
+            <div class="project"><div class="project-top"><strong>BlueNight20.github.io</strong><span class="project-type">本站源码</span></div><div class="muted">使用 Astro 与 Fuwari 构建的个人技术博客。</div><div class="project-footer">Astro · Svelte</div></div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <h4 class="panel-title">近期轨迹</h4>
+          <div class="timeline">
+            <div class="event"><strong>搭建个人技术博客</strong><div class="muted">让零散笔记沉淀为可以长期维护的内容。</div></div>
+            <div class="event"><strong>研究自动化渗透测试</strong><div class="muted">持续记录任务规划、工具调用与多智能体协作。</div></div>
+            <div class="event"><strong>整理开源项目</strong><div class="muted">补充说明、实践案例与复现过程。</div></div>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-header"><h3>最新文章</h3><span>查看归档 →</span></div>
+          <div class="posts">
+            <div class="post"><div class="post-image"></div><div><strong>Astro Fuwari 博客部署与踩坑记录</strong><div class="muted">Astro · GitHub Pages · 建站 / 6 分钟</div></div><div class="post-arrow">›</div></div>
+            <div class="post"><div class="post-image"></div><div><strong>多智能体渗透测试中的任务规划</strong><div class="muted">Agent · Security · Research / 12 分钟</div></div><div class="post-arrow">›</div></div>
+            <div class="post"><div class="post-image"></div><div><strong>一次 CTF 解题过程的完整复盘</strong><div class="muted">CTF · Writeup · Notes / 9 分钟</div></div><div class="post-arrow">›</div></div>
+          </div>
+        </section>
+      </main>
+    </div>
+    <div class="footer-note">继续向下加载原有文章分页、分类和页脚</div>
+  </div>
+</div>

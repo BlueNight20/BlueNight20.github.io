@@ -1,0 +1,174 @@
+<div id="bluenight-home-options">
+  <style>
+    #bluenight-home-options {
+      --bn-bg: #080f15;
+      --bn-surface: #141d26;
+      --bn-surface-2: #1b2733;
+      --bn-text: #edf4fb;
+      --bn-muted: #91a2b3;
+      --bn-blue: #5aafff;
+      --bn-blue-soft: #24384c;
+      --bn-line: #2a3948;
+    }
+    #bluenight-home-options .intro { margin-bottom: 20px; }
+    #bluenight-home-options .designs { display: grid; gap: 22px; }
+    #bluenight-home-options .design-choice {
+      cursor: pointer;
+      border: 2px solid transparent;
+      border-radius: 14px;
+      padding: 8px;
+      transition: border-color .18s ease, transform .18s ease;
+    }
+    #bluenight-home-options .design-choice:hover { transform: translateY(-2px); }
+    #bluenight-home-options .design-choice.is-selected,
+    #bluenight-home-options .design-choice.selected { border-color: var(--primary); }
+    #bluenight-home-options .choice-title {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      margin: 2px 4px 9px;
+    }
+    #bluenight-home-options .choice-title h3 { margin: 0; }
+    #bluenight-home-options .choice-title span { color: var(--muted-foreground); }
+    #bluenight-home-options .bn-window {
+      overflow: hidden;
+      border-radius: 12px;
+      background: var(--bn-bg);
+      color: var(--bn-text);
+      font-family: Inter, "Microsoft YaHei", sans-serif;
+      box-shadow: 0 12px 36px rgba(0, 0, 0, .28);
+    }
+    #bluenight-home-options .bn-banner {
+      min-height: 138px;
+      padding: 14px 18px 20px;
+      background:
+        radial-gradient(circle at 53% 38%, rgba(255, 225, 166, .85), transparent 17%),
+        radial-gradient(circle at 30% 35%, rgba(224, 130, 99, .72), transparent 28%),
+        radial-gradient(circle at 78% 64%, rgba(49, 113, 166, .82), transparent 34%),
+        linear-gradient(135deg, #6d7486 0%, #d88c70 28%, #e6b27e 49%, #2e668e 72%, #102d45 100%);
+    }
+    #bluenight-home-options .bn-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 10px 14px;
+      border-radius: 12px;
+      background: rgba(12, 20, 28, .94);
+      font-size: 12px;
+    }
+    #bluenight-home-options .bn-nav strong { color: var(--bn-blue); }
+    #bluenight-home-options .bn-nav-links { display: flex; gap: 13px; color: #c6d1dc; }
+    #bluenight-home-options .bn-hero-copy { margin-top: 22px; max-width: 68%; }
+    #bluenight-home-options .bn-hero-copy h4 { margin: 0 0 6px; font-size: 21px; }
+    #bluenight-home-options .bn-hero-copy p { margin: 0; color: #e8edf2; font-size: 12px; }
+    #bluenight-home-options .bn-actions { display: flex; gap: 8px; margin-top: 12px; }
+    #bluenight-home-options .bn-action {
+      padding: 6px 10px;
+      border-radius: 7px;
+      background: var(--bn-blue);
+      color: #07121b;
+      font-size: 11px;
+      font-weight: 700;
+    }
+    #bluenight-home-options .bn-action.secondary { background: rgba(15, 27, 38, .76); color: #eaf4fc; }
+    #bluenight-home-options .bn-body { padding: 16px; }
+    #bluenight-home-options .bn-layout { display: grid; grid-template-columns: 29% 1fr; gap: 12px; }
+    #bluenight-home-options .bn-stack { display: grid; gap: 10px; }
+    #bluenight-home-options .bn-panel { padding: 12px; border-radius: 10px; background: var(--bn-surface); }
+    #bluenight-home-options .bn-panel h5 { margin: 0 0 9px; font-size: 12px; color: var(--bn-text); }
+    #bluenight-home-options .bn-muted { color: var(--bn-muted); font-size: 10px; }
+    #bluenight-home-options .bn-profile { display: flex; align-items: center; gap: 9px; }
+    #bluenight-home-options .bn-avatar {
+      width: 38px;
+      height: 38px;
+      flex: 0 0 38px;
+      border-radius: 10px;
+      background: linear-gradient(145deg, #dde6ed, #445769 48%, #111b25 49%);
+    }
+    #bluenight-home-options .bn-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+    #bluenight-home-options .bn-tag { padding: 4px 6px; border-radius: 5px; background: var(--bn-blue-soft); color: #b9dcfb; font-size: 9px; }
+    #bluenight-home-options .bn-section-title { display: flex; justify-content: space-between; margin-bottom: 9px; }
+    #bluenight-home-options .bn-section-title strong { font-size: 13px; }
+    #bluenight-home-options .bn-section-title span { color: var(--bn-blue); font-size: 10px; }
+    #bluenight-home-options .bn-feature-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 9px; }
+    #bluenight-home-options .bn-feature { min-height: 74px; padding: 10px; border-radius: 9px; background: var(--bn-surface-2); }
+    #bluenight-home-options .bn-feature strong { display: block; margin-bottom: 5px; font-size: 11px; }
+    #bluenight-home-options .bn-project-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    #bluenight-home-options .bn-project { padding: 9px; border-radius: 8px; background: var(--bn-surface); }
+    #bluenight-home-options .bn-project strong { display: block; margin-bottom: 5px; font-size: 10px; }
+    #bluenight-home-options .bn-post { display: grid; grid-template-columns: 1fr auto; gap: 12px; padding: 10px; border-radius: 9px; background: var(--bn-surface); }
+    #bluenight-home-options .bn-post strong { display: block; margin-bottom: 5px; font-size: 11px; }
+    #bluenight-home-options .bn-date { color: var(--bn-muted); font-size: 9px; }
+    #bluenight-home-options .bn-stat-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    #bluenight-home-options .bn-stat { padding: 10px; text-align: center; border-radius: 8px; background: var(--bn-surface-2); }
+    #bluenight-home-options .bn-stat strong { display: block; color: var(--bn-blue); font-size: 15px; }
+    #bluenight-home-options .bn-timeline { border-left: 2px solid var(--bn-line); padding-left: 11px; display: grid; gap: 9px; }
+    #bluenight-home-options .bn-timeline div { position: relative; font-size: 10px; }
+    #bluenight-home-options .bn-timeline div::before { content: ""; position: absolute; width: 6px; height: 6px; left: -15px; top: 3px; border-radius: 50%; background: var(--bn-blue); }
+    @media (max-width: 620px) {
+      #bluenight-home-options .bn-layout { grid-template-columns: 1fr; }
+      #bluenight-home-options .bn-project-grid { grid-template-columns: 1fr; }
+      #bluenight-home-options .bn-hero-copy { max-width: 92%; }
+      #bluenight-home-options .choice-title { align-items: flex-start; flex-direction: column; }
+    }
+  </style>
+
+  <div class="intro">
+    <h2>选择你的「个人技术博客」首页结构</h2>
+    <p class="subtitle">三种方案都保留现有 Fuwari 横幅、双栏和深色卡片风格；点击整张方案即可选择。</p>
+  </div>
+
+  <div class="designs">
+    <div class="design-choice option" data-choice="balanced" onclick="toggleSelect(this)">
+      <div class="choice-title"><h3>A · 平衡型首页（推荐）</h3><span>个人介绍 + 精选内容 + 最新文章</span></div>
+      <div class="bn-window">
+        <div class="bn-banner">
+          <div class="bn-nav"><strong>⌂ BlueNight's Blog</strong><div class="bn-nav-links"><span>主页</span><span>归档</span><span>项目</span><span>关于</span></div></div>
+          <div class="bn-hero-copy"><h4>探索安全，也记录思考。</h4><p>自动化渗透测试 · 多智能体系统 · 技术笔记</p><div class="bn-actions"><span class="bn-action">阅读文章</span><span class="bn-action secondary">查看项目</span></div></div>
+        </div>
+        <div class="bn-body bn-layout">
+          <div class="bn-stack">
+            <div class="bn-panel"><div class="bn-profile"><div class="bn-avatar"></div><div><h5 style="margin-bottom:3px">BlueNight</h5><div class="bn-muted">分享研究、工具与踩坑记录</div></div></div></div>
+            <div class="bn-panel"><h5>研究方向</h5><div class="bn-tags"><span class="bn-tag">自动化渗透</span><span class="bn-tag">Multi-Agent</span><span class="bn-tag">CTF</span><span class="bn-tag">AI Security</span></div></div>
+          </div>
+          <div class="bn-stack">
+            <div><div class="bn-section-title"><strong>精选文章</strong><span>查看全部 →</span></div><div class="bn-feature-grid"><div class="bn-feature"><strong>从零构建自动化渗透 Agent</strong><div class="bn-muted">架构、工具调用与实战复盘</div></div><div class="bn-feature"><strong>多智能体协作中的安全边界</strong><div class="bn-muted">从实验到工程化的关键问题</div></div></div></div>
+            <div><div class="bn-section-title"><strong>开源项目</strong><span>GitHub →</span></div><div class="bn-project-grid"><div class="bn-project"><strong>Auto-Pen Bench</strong><div class="bn-muted">评测框架</div></div><div class="bn-project"><strong>Security Notes</strong><div class="bn-muted">知识库</div></div><div class="bn-project"><strong>CTF Toolkit</strong><div class="bn-muted">解题工具</div></div></div></div>
+            <div><div class="bn-section-title"><strong>最新文章</strong><span>归档 →</span></div><div class="bn-stack"><div class="bn-post"><div><strong>Astro Fuwari 博客部署记录</strong><div class="bn-muted">部署 · GitHub Pages · Astro</div></div><span class="bn-date">08-30</span></div><div class="bn-post"><div><strong>渗透测试中的任务规划方法</strong><div class="bn-muted">Agent · Planning · Security</div></div><span class="bn-date">08-24</span></div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="design-choice option" data-choice="magazine" onclick="toggleSelect(this)">
+      <div class="choice-title"><h3>B · 内容杂志型</h3><span>信息密度高，适合文章和项目较多时</span></div>
+      <div class="bn-window">
+        <div class="bn-banner">
+          <div class="bn-nav"><strong>⌂ BlueNight's Blog</strong><div class="bn-nav-links"><span>专题</span><span>文章</span><span>项目</span><span>关于</span></div></div>
+          <div class="bn-hero-copy"><h4>本周专题：Agent 安全实践</h4><p>精选研究、工具链和可复现实验</p></div>
+        </div>
+        <div class="bn-body bn-stack">
+          <div class="bn-stat-row"><div class="bn-stat"><strong>24</strong><span class="bn-muted">技术文章</span></div><div class="bn-stat"><strong>6</strong><span class="bn-muted">开源项目</span></div><div class="bn-stat"><strong>4</strong><span class="bn-muted">研究专题</span></div></div>
+          <div class="bn-feature-grid"><div class="bn-feature"><strong>自动化渗透测试专题</strong><div class="bn-muted">8 篇文章 · 3 个项目</div></div><div class="bn-feature"><strong>多智能体系统专题</strong><div class="bn-muted">6 篇文章 · 实验日志</div></div></div>
+          <div class="bn-layout"><div class="bn-panel"><h5>热门标签</h5><div class="bn-tags"><span class="bn-tag">Pentest</span><span class="bn-tag">Agent</span><span class="bn-tag">LLM</span><span class="bn-tag">CTF</span><span class="bn-tag">Astro</span></div></div><div class="bn-stack"><div class="bn-post"><div><strong>如何为安全 Agent 设计长期记忆</strong><div class="bn-muted">深度文章 · 12 分钟</div></div><span class="bn-date">08-29</span></div><div class="bn-post"><div><strong>漏洞复现：从信息收集到利用链</strong><div class="bn-muted">实战记录 · 9 分钟</div></div><span class="bn-date">08-22</span></div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="design-choice option" data-choice="personal" onclick="toggleSelect(this)">
+      <div class="choice-title"><h3>C · 个人叙事型</h3><span>更强调“我是谁”和当前动态</span></div>
+      <div class="bn-window">
+        <div class="bn-banner">
+          <div class="bn-nav"><strong>⌂ BlueNight</strong><div class="bn-nav-links"><span>记录</span><span>项目</span><span>书签</span><span>关于我</span></div></div>
+          <div class="bn-hero-copy"><h4>你好，我是 BlueNight。</h4><p>安全研究者、工具开发者，也是一名持续学习者。</p><div class="bn-actions"><span class="bn-action">认识我</span><span class="bn-action secondary">最近在做什么</span></div></div>
+        </div>
+        <div class="bn-body bn-layout">
+          <div class="bn-stack"><div class="bn-panel"><h5>现在</h5><div class="bn-muted">正在研究多智能体自动化渗透测试，整理实验与工程实践。</div></div><div class="bn-panel"><h5>常用技术</h5><div class="bn-tags"><span class="bn-tag">Python</span><span class="bn-tag">Rust</span><span class="bn-tag">LLM Agent</span><span class="bn-tag">Web Security</span></div></div></div>
+          <div class="bn-stack"><div class="bn-panel"><h5>近期轨迹</h5><div class="bn-timeline"><div><strong>发布 Astro 博客</strong><br><span class="bn-muted">让知识沉淀更稳定</span></div><div><strong>整理自动化渗透实验</strong><br><span class="bn-muted">记录方法、失败和改进</span></div><div><strong>开放研究工具</strong><br><span class="bn-muted">项目文档与使用案例</span></div></div></div><div class="bn-section-title"><strong>最近写下</strong><span>全部记录 →</span></div><div class="bn-post"><div><strong>我为什么开始写这个博客</strong><div class="bn-muted">随笔 · 建站 · 知识管理</div></div><span class="bn-date">08-30</span></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
