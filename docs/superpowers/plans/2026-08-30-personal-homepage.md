@@ -714,4 +714,3 @@ git commit -m "test: verify personal homepage behavior"
 ```
 
 If no verification adjustment was needed and `tests/homepage-output.test.mjs` was already committed in earlier tasks, do not create an empty commit.
-
