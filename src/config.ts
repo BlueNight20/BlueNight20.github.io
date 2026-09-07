@@ -37,6 +37,23 @@ export const siteConfig: SiteConfig = {
 		//   sizes: '32x32',              // (Optional) Size of the favicon if you have favicons of different sizes
 		// }
 	],
+	effects: {
+		dynamicBackground: {
+			enable: true,
+			// Aurora color blobs (used for the soft drifting radial gradients).
+			// Leave as is for a calm look, or change to your own palette.
+			colors: ["#a78bfa", "#60a5fa", "#f472b6", "#34d399"],
+			// Particle density (0..1). Lower = fewer floating dots.
+			particleDensity: 0.6,
+		},
+		cursorEffect: {
+			enable: true,
+			// "default" = dot + ring + click ripple  (recommended)
+			// "ripple"  = click ripple only (keep native cursor)
+			// "sparkle" = dot + ring + click sparkle particles
+			mode: "default",
+		},
+	},
 };
 
 export const navBarConfig: NavBarConfig = {

@@ -150,3 +150,32 @@
     }
   }
 }
+
+/* -------------------------------------------------------------------------
+   Cursor effect helpers
+   - `fx-cursor-active`  is set on <html> from config at build time
+     (just a marker that the effect is enabled).
+   - `fx-cursor-on`      is added by CursorEffect.svelte only once it has
+     actually hydrated and confirmed this is a fine-pointer device, so the
+     native cursor is only hidden after the custom one is live.
+   Text inputs keep a text caret.
+------------------------------------------------------------------------- */
+html.fx-cursor-active.fx-cursor-on,
+html.fx-cursor-active.fx-cursor-on body {
+  cursor: none;
+}
+
+html.fx-cursor-active.fx-cursor-on input,
+html.fx-cursor-active.fx-cursor-on textarea,
+html.fx-cursor-active.fx-cursor-on select,
+html.fx-cursor-active.fx-cursor-on [contenteditable="true"] {
+  cursor: text;
+}
+
+/* Touch devices don't get a custom cursor - never hide the native one there. */
+@media (hover: none), (pointer: coarse) {
+  html.fx-cursor-active,
+  html.fx-cursor-active body {
+    cursor: auto;
+  }
+}

@@ -4,6 +4,8 @@ import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 
 import ConfigCarrier from "@components/ConfigCarrier.astro";
+import BackgroundFX from "@components/effects/BackgroundFX.svelte";
+import CursorEffect from "@components/effects/CursorEffect.svelte";
 import { profileConfig, siteConfig } from "@/config";
 import {
 	AUTO_MODE,
@@ -73,7 +75,11 @@ const bannerOffset =
 ---
 
 <!DOCTYPE html>
-<html lang={siteLang} class="bg-[var(--page-bg)] transition text-[14px] md:text-[16px]"
+<html lang={siteLang}
+	  class="bg-[var(--page-bg)] transition text-[14px] md:text-[16px]"
+	  class:list={[
+			{ "fx-cursor-active": siteConfig.effects.cursorEffect.enable },
+	  ]}
 	  data-overlayscrollbars-initialize
 >
 	<head>
@@ -153,6 +159,13 @@ const bannerOffset =
 	>
 		<ConfigCarrier></ConfigCarrier>
 		<slot />
+
+		<!-- Global visual effects. They are purely client-side, so they use
+		     client:only="svelte" like the other svelte islands in this theme
+		     (no SSR -> no experimental_async_ssr warning). They live outside the
+		     swup container so they survive page transitions. -->
+		<BackgroundFX client:only="svelte" />
+		<CursorEffect client:only="svelte" />
 
 		<!-- increase the page height during page transition to prevent the scrolling animation from jumping -->
 		<div id="page-height-extend" class="hidden h-[300vh]"></div>
