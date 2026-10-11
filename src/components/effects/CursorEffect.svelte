@@ -17,177 +17,181 @@
 import { onMount } from "svelte";
 import { siteConfig } from "../../config";
 
-	type Props = {
-		/**
-		 * Optional accent color used by the cursor dot / ring / ripple.
-		 * When omitted the theme's --hue based accent is used.
-		 */
-		accentColor?: string;
-	};
+type Props = {
+	/**
+	 * Optional accent color used by the cursor dot / ring / ripple.
+	 * When omitted the theme's --hue based accent is used.
+	 */
+	accentColor?: string;
+};
 
-	const { accentColor }: Props = $props();
+const { accentColor }: Props = $props();
 
-	const enabled = siteConfig.effects.cursorEffect.enable;
-	const mode: "default" | "sparkle" | "ripple" =
-		siteConfig.effects.cursorEffect.mode ?? "default";
-	const showFollower = mode === "default" || mode === "sparkle";
+const enabled = siteConfig.effects.cursorEffect.enable;
+const mode: "default" | "sparkle" | "ripple" =
+	siteConfig.effects.cursorEffect.mode ?? "default";
+const showFollower = mode === "default" || mode === "sparkle";
 
-	let dotX = $state(0);
-	let dotY = $state(0);
-	let ringX = $state(0);
-	let ringY = $state(0);
-	let ringVisible = $state(false);
-	let hovering = $state(false);
-	let pressing = $state(false);
+let dotX = $state(0);
+let dotY = $state(0);
+let ringX = $state(0);
+let ringY = $state(0);
+let ringVisible = $state(false);
+let hovering = $state(false);
+let pressing = $state(false);
 
-	type Ripple = { id: number; x: number; y: number; color: string };
-	type Sparkle = {
-		id: number;
-		x: number;
-		y: number;
-		vx: number;
-		vy: number;
-		life: number;
-		max: number;
-		size: number;
-		color: string;
-	};
+type Ripple = { id: number; x: number; y: number; color: string };
+type Sparkle = {
+	id: number;
+	x: number;
+	y: number;
+	vx: number;
+	vy: number;
+	life: number;
+	max: number;
+	size: number;
+	color: string;
+};
 
-	let ripples = $state<Ripple[]>([]);
-	let sparkles = $state<Sparkle[]>([]);
+let ripples = $state<Ripple[]>([]);
+let sparkles = $state<Sparkle[]>([]);
 
-	let rippleId = 0;
-	let sparkleId = 0;
+let rippleId = 0;
+let sparkleId = 0;
 
-	const COLORS = [
-		"rgb(167,139,250)",
-		"rgb(96,165,250)",
-		"rgb(244,114,182)",
-		"rgb(52,211,153)",
-	];
+const COLORS = [
+	"rgb(167,139,250)",
+	"rgb(96,165,250)",
+	"rgb(244,114,182)",
+	"rgb(52,211,153)",
+];
 
-	const pick = () => COLORS[Math.floor(Math.random() * COLORS.length)];
+const pick = () => COLORS[Math.floor(Math.random() * COLORS.length)];
 
-	function isInteractive(el: Element | null): boolean {
-		let cur: Element | null = el;
-		while (cur && cur !== document.body) {
-			if (!(cur instanceof HTMLElement)) {
-				cur = cur.parentElement;
-				continue;
-			}
-			const tag = cur.tagName;
-			if (
-				tag === "A" ||
-				tag === "BUTTON" ||
-				tag === "INPUT" ||
-				tag === "TEXTAREA" ||
-				tag === "SELECT" ||
-				cur.isContentEditable ||
-				cur.dataset?.cursorInteractive === "true"
-			) {
-				return true;
-			}
+function isInteractive(el: Element | null): boolean {
+	let cur: Element | null = el;
+	while (cur && cur !== document.body) {
+		if (!(cur instanceof HTMLElement)) {
 			cur = cur.parentElement;
+			continue;
 		}
-		return false;
+		const tag = cur.tagName;
+		if (
+			tag === "A" ||
+			tag === "BUTTON" ||
+			tag === "INPUT" ||
+			tag === "TEXTAREA" ||
+			tag === "SELECT" ||
+			cur.isContentEditable ||
+			cur.dataset?.cursorInteractive === "true"
+		) {
+			return true;
+		}
+		cur = cur.parentElement;
 	}
+	return false;
+}
 
-	onMount(() => {
-		if (!enabled) return;
+onMount(() => {
+	if (!enabled) return;
 
-		const isTouch =
-			window.matchMedia?.("(hover: none) and (pointer: coarse)").matches ?? false;
-		const reducedMotion =
-			window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false;
-		if (isTouch) return;
+	const isTouch =
+		window.matchMedia?.("(hover: none) and (pointer: coarse)").matches ?? false;
+	const reducedMotion =
+		window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false;
+	if (isTouch) return;
 
-		// Only now (custom cursor is live on a fine-pointer device) hide the
-		// native cursor. Ripple-only mode keeps the native cursor.
-		if (showFollower) document.documentElement.classList.add("fx-cursor-on");
+	// Only now (custom cursor is live on a fine-pointer device) hide the
+	// native cursor. Ripple-only mode keeps the native cursor.
+	if (showFollower) document.documentElement.classList.add("fx-cursor-on");
 
-		let raf = 0;
-		let lastMove = performance.now();
+	let raf = 0;
+	let lastMove = performance.now();
 
-		const onMove = (e: PointerEvent) => {
-			dotX = e.clientX;
-			dotY = e.clientY;
-			ringVisible = true;
-			lastMove = performance.now();
-			hovering = isInteractive(e.target as Element);
-		};
-		const onDown = (e: PointerEvent) => {
-			pressing = true;
-			const id = ++rippleId;
-			ripples = [...ripples, { id, x: e.clientX, y: e.clientY, color: pick() }];
-			setTimeout(() => {
-				ripples = ripples.filter((r) => r.id !== id);
-			}, 900);
-			if (mode === "sparkle") {
-				for (let i = 0; i < 12; i++) {
-					const a = Math.random() * Math.PI * 2;
-					const sp = 1.5 + Math.random() * 3;
-					sparkles = [
-						...sparkles,
-						{
-							id: ++sparkleId,
-							x: e.clientX,
-							y: e.clientY,
-							vx: Math.cos(a) * sp,
-							vy: Math.sin(a) * sp,
-							life: 0,
-							max: 700 + Math.random() * 500,
-							size: 2 + Math.random() * 3,
-							color: pick(),
-						},
-					];
-				}
+	const onMove = (e: PointerEvent) => {
+		dotX = e.clientX;
+		dotY = e.clientY;
+		ringVisible = true;
+		lastMove = performance.now();
+		hovering = isInteractive(e.target as Element);
+	};
+	const onDown = (e: PointerEvent) => {
+		pressing = true;
+		const id = ++rippleId;
+		ripples = [...ripples, { id, x: e.clientX, y: e.clientY, color: pick() }];
+		setTimeout(() => {
+			ripples = ripples.filter((r) => r.id !== id);
+		}, 900);
+		if (mode === "sparkle") {
+			for (let i = 0; i < 12; i++) {
+				const a = Math.random() * Math.PI * 2;
+				const sp = 1.5 + Math.random() * 3;
+				sparkles = [
+					...sparkles,
+					{
+						id: ++sparkleId,
+						x: e.clientX,
+						y: e.clientY,
+						vx: Math.cos(a) * sp,
+						vy: Math.sin(a) * sp,
+						life: 0,
+						max: 700 + Math.random() * 500,
+						size: 2 + Math.random() * 3,
+						color: pick(),
+					},
+				];
 			}
-		};
-		const onUp = () => (pressing = false);
-		const onLeave = () => (ringVisible = false);
+		}
+	};
+	const onUp = () => {
+		pressing = false;
+	};
+	const onLeave = () => {
+		ringVisible = false;
+	};
 
-		const tick = () => {
-			raf = requestAnimationFrame(tick);
-			const speed = reducedMotion ? 1 : 0.22;
-			ringX += (dotX - ringX) * speed;
-			ringY += (dotY - ringY) * speed;
-
-			if (sparkles.length) {
-				const dt = 16;
-				const next: Sparkle[] = [];
-				for (const s of sparkles) {
-					const life = s.life + dt;
-					if (life >= s.max) continue;
-					next.push({
-						...s,
-						x: s.x + s.vx,
-						y: s.y + s.vy,
-						vy: s.vy + 0.04,
-						life,
-					});
-				}
-				sparkles = next;
-			}
-			if (performance.now() - lastMove > 1500) ringVisible = false;
-		};
-
+	const tick = () => {
 		raf = requestAnimationFrame(tick);
-		window.addEventListener("pointermove", onMove, { passive: true });
-		window.addEventListener("pointerdown", onDown, { passive: true });
-		window.addEventListener("pointerup", onUp, { passive: true });
-		document.addEventListener("mouseleave", onLeave);
-		window.addEventListener("blur", onLeave);
+		const speed = reducedMotion ? 1 : 0.22;
+		ringX += (dotX - ringX) * speed;
+		ringY += (dotY - ringY) * speed;
 
-		return () => {
-			cancelAnimationFrame(raf);
-			document.documentElement.classList.remove("fx-cursor-on");
-			window.removeEventListener("pointermove", onMove);
-			window.removeEventListener("pointerdown", onDown);
-			window.removeEventListener("pointerup", onUp);
-			document.removeEventListener("mouseleave", onLeave);
-			window.removeEventListener("blur", onLeave);
-		};
-	});
+		if (sparkles.length) {
+			const dt = 16;
+			const next: Sparkle[] = [];
+			for (const s of sparkles) {
+				const life = s.life + dt;
+				if (life >= s.max) continue;
+				next.push({
+					...s,
+					x: s.x + s.vx,
+					y: s.y + s.vy,
+					vy: s.vy + 0.04,
+					life,
+				});
+			}
+			sparkles = next;
+		}
+		if (performance.now() - lastMove > 1500) ringVisible = false;
+	};
+
+	raf = requestAnimationFrame(tick);
+	window.addEventListener("pointermove", onMove, { passive: true });
+	window.addEventListener("pointerdown", onDown, { passive: true });
+	window.addEventListener("pointerup", onUp, { passive: true });
+	document.addEventListener("mouseleave", onLeave);
+	window.addEventListener("blur", onLeave);
+
+	return () => {
+		cancelAnimationFrame(raf);
+		document.documentElement.classList.remove("fx-cursor-on");
+		window.removeEventListener("pointermove", onMove);
+		window.removeEventListener("pointerdown", onDown);
+		window.removeEventListener("pointerup", onUp);
+		document.removeEventListener("mouseleave", onLeave);
+		window.removeEventListener("blur", onLeave);
+	};
+});
 </script>
 
 {#if enabled}

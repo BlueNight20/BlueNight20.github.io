@@ -13,186 +13,186 @@
 import { onMount } from "svelte";
 import { siteConfig } from "../../config";
 
-	type Props = {
-		colors?: readonly string[];
-		particleDensity?: number;
+type Props = {
+	colors?: readonly string[];
+	particleDensity?: number;
+};
+
+const {
+	colors = siteConfig.effects.dynamicBackground.colors ?? [
+		"#a78bfa",
+		"#60a5fa",
+		"#f472b6",
+		"#34d399",
+	],
+	particleDensity = siteConfig.effects.dynamicBackground.particleDensity ?? 0.6,
+}: Props = $props();
+
+const enabled = siteConfig.effects.dynamicBackground.enable;
+
+// Reactive references used by the canvas + css layers
+let canvasEl: HTMLCanvasElement | null = $state(null);
+let rootEl: HTMLDivElement | null = $state(null);
+let isTouch = $state(false);
+let reducedMotion = $state(false);
+
+// mouse position (smoothed for the glow)
+let mouseX = $state(0);
+let mouseY = $state(0);
+let glowX = $state(0);
+let glowY = $state(0);
+
+onMount(() => {
+	isTouch =
+		window.matchMedia?.("(hover: none) and (pointer: coarse)").matches ?? false;
+	reducedMotion =
+		window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false;
+
+	if (!enabled || !canvasEl || !rootEl) return;
+
+	const canvas = canvasEl;
+	const ctx = canvas.getContext("2d", { alpha: true });
+	if (!ctx) return;
+
+	const dpr = Math.min(window.devicePixelRatio || 1, 2);
+	let w = 0;
+	let h = 0;
+	let raf = 0;
+
+	type Particle = {
+		x: number;
+		y: number;
+		vx: number;
+		vy: number;
+		r: number;
+		a: number;
+		phase: number;
+		speed: number;
 	};
 
-	const {
-		colors = siteConfig.effects.dynamicBackground.colors ?? [
-			"#a78bfa",
-			"#60a5fa",
-			"#f472b6",
-			"#34d399",
-		],
-		particleDensity = siteConfig.effects.dynamicBackground.particleDensity ?? 0.6,
-	}: Props = $props();
+	let particles: Particle[] = [];
+	const particleCountFromArea = (area: number) =>
+		Math.max(24, Math.min(140, Math.floor((area / 14000) * particleDensity)));
 
-	const enabled = siteConfig.effects.dynamicBackground.enable;
+	function resize() {
+		if (!canvas || !rootEl) return;
+		const rect = rootEl.getBoundingClientRect();
+		w = rect.width;
+		h = rect.height;
+		canvas.width = Math.floor(w * dpr);
+		canvas.height = Math.floor(h * dpr);
+		canvas.style.width = `${w}px`;
+		canvas.style.height = `${h}px`;
+		ctx?.scale(dpr, dpr);
+		rebuildParticles();
+	}
 
-	// Reactive references used by the canvas + css layers
-	let canvasEl: HTMLCanvasElement | null = $state(null);
-	let rootEl: HTMLDivElement | null = $state(null);
-	let isTouch = $state(false);
-	let reducedMotion = $state(false);
+	function rebuildParticles() {
+		const target = particleCountFromArea(w * h);
+		particles = Array.from({ length: target }, () => makeParticle());
+	}
 
-	// mouse position (smoothed for the glow)
-	let mouseX = $state(0);
-	let mouseY = $state(0);
-	let glowX = $state(0);
-	let glowY = $state(0);
-
-	onMount(() => {
-		isTouch =
-			window.matchMedia?.("(hover: none) and (pointer: coarse)").matches ?? false;
-		reducedMotion =
-			window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false;
-
-		if (!enabled || !canvasEl || !rootEl) return;
-
-		const canvas = canvasEl;
-		const ctx = canvas.getContext("2d", { alpha: true });
-		if (!ctx) return;
-
-		const dpr = Math.min(window.devicePixelRatio || 1, 2);
-		let w = 0;
-		let h = 0;
-		let raf = 0;
-
-		type Particle = {
-			x: number;
-			y: number;
-			vx: number;
-			vy: number;
-			r: number;
-			a: number;
-			phase: number;
-			speed: number;
+	function makeParticle(): Particle {
+		const angle = Math.random() * Math.PI * 2;
+		const r = 0.3 + Math.random() * 1.4;
+		const speed = 0.08 + Math.random() * 0.18;
+		return {
+			x: Math.random() * w,
+			y: Math.random() * h,
+			vx: Math.cos(angle) * speed,
+			vy: Math.sin(angle) * speed,
+			r,
+			a: 0.25 + Math.random() * 0.55,
+			phase: Math.random() * Math.PI * 2,
+			speed: 0.4 + Math.random() * 0.8,
 		};
+	}
 
-		let particles: Particle[] = [];
-		const particleCountFromArea = (area: number) =>
-			Math.max(24, Math.min(140, Math.floor(area / 14000 * particleDensity)));
-
-		function resize() {
-			if (!canvas || !rootEl) return;
-			const rect = rootEl.getBoundingClientRect();
-			w = rect.width;
-			h = rect.height;
-			canvas.width = Math.floor(w * dpr);
-			canvas.height = Math.floor(h * dpr);
-			canvas.style.width = `${w}px`;
-			canvas.style.height = `${h}px`;
-			ctx?.scale(dpr, dpr);
-			rebuildParticles();
-		}
-
-		function rebuildParticles() {
-			const target = particleCountFromArea(w * h);
-			particles = Array.from({ length: target }, () => makeParticle());
-		}
-
-		function makeParticle(): Particle {
-			const angle = Math.random() * Math.PI * 2;
-			const r = 0.3 + Math.random() * 1.4;
-			const speed = 0.08 + Math.random() * 0.18;
-			return {
-				x: Math.random() * w,
-				y: Math.random() * h,
-				vx: Math.cos(angle) * speed,
-				vy: Math.sin(angle) * speed,
-				r,
-				a: 0.25 + Math.random() * 0.55,
-				phase: Math.random() * Math.PI * 2,
-				speed: 0.4 + Math.random() * 0.8,
-			};
-		}
-
-		function step(t: number) {
-			raf = requestAnimationFrame(step);
-			if (!ctx) return;
-			ctx.clearRect(0, 0, w, h);
-
-			// Smooth the mouse-driven glow
-			glowX += (mouseX - glowX) * 0.08;
-			glowY += (mouseY - glowY) * 0.08;
-
-			for (const p of particles) {
-				// gentle drift; if reduced motion, freeze drift but keep twinkle
-				if (!reducedMotion) {
-					p.x += p.vx;
-					p.y += p.vy;
-					if (p.x < -20) p.x = w + 20;
-					else if (p.x > w + 20) p.x = -20;
-					if (p.y < -20) p.y = h + 20;
-					else if (p.y > h + 20) p.y = -20;
-				}
-
-				// parallax: pushes particles slightly away from mouse
-				if (!isTouch) {
-					const dx = p.x - glowX;
-					const dy = p.y - glowY;
-					const d2 = dx * dx + dy * dy;
-					const radius = 140;
-					if (d2 < radius * radius && d2 > 1) {
-						const d = Math.sqrt(d2);
-						const force = (1 - d / radius) * 0.6;
-						p.x += (dx / d) * force;
-						p.y += (dy / d) * force;
-					}
-				}
-
-				const tw = 0.5 + 0.5 * Math.sin(t * 0.001 * p.speed + p.phase);
-				const alpha = p.a * (0.35 + 0.65 * tw);
-				ctx.beginPath();
-				ctx.fillStyle = `rgba(220, 220, 240, ${alpha.toFixed(3)})`;
-				ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-				ctx.fill();
-			}
-
-			// Draw connecting lines between close particles
-			const maxDist = 110;
-			for (let i = 0; i < particles.length; i++) {
-				const a = particles[i];
-				for (let j = i + 1; j < particles.length; j++) {
-					const b = particles[j];
-					const dx = a.x - b.x;
-					const dy = a.y - b.y;
-					const d = Math.hypot(dx, dy);
-					if (d < maxDist) {
-						const alpha = (1 - d / maxDist) * 0.12;
-						ctx.strokeStyle = `rgba(200, 210, 255, ${alpha.toFixed(3)})`;
-						ctx.lineWidth = 0.6;
-						ctx.beginPath();
-						ctx.moveTo(a.x, a.y);
-						ctx.lineTo(b.x, b.y);
-						ctx.stroke();
-					}
-				}
-			}
-		}
-
-		function onMove(e: PointerEvent) {
-			if (!rootEl) return;
-			const rect = rootEl.getBoundingClientRect();
-			mouseX = e.clientX - rect.left;
-			mouseY = e.clientY - rect.top;
-		}
-
-		resize();
+	function step(t: number) {
 		raf = requestAnimationFrame(step);
+		if (!ctx) return;
+		ctx.clearRect(0, 0, w, h);
 
-		const ro = new ResizeObserver(resize);
-		if (rootEl) ro.observe(rootEl);
+		// Smooth the mouse-driven glow
+		glowX += (mouseX - glowX) * 0.08;
+		glowY += (mouseY - glowY) * 0.08;
 
-		window.addEventListener("pointermove", onMove, { passive: true });
+		for (const p of particles) {
+			// gentle drift; if reduced motion, freeze drift but keep twinkle
+			if (!reducedMotion) {
+				p.x += p.vx;
+				p.y += p.vy;
+				if (p.x < -20) p.x = w + 20;
+				else if (p.x > w + 20) p.x = -20;
+				if (p.y < -20) p.y = h + 20;
+				else if (p.y > h + 20) p.y = -20;
+			}
 
-		return () => {
-			cancelAnimationFrame(raf);
-			ro.disconnect();
-			window.removeEventListener("pointermove", onMove);
-		};
-	});
+			// parallax: pushes particles slightly away from mouse
+			if (!isTouch) {
+				const dx = p.x - glowX;
+				const dy = p.y - glowY;
+				const d2 = dx * dx + dy * dy;
+				const radius = 140;
+				if (d2 < radius * radius && d2 > 1) {
+					const d = Math.sqrt(d2);
+					const force = (1 - d / radius) * 0.6;
+					p.x += (dx / d) * force;
+					p.y += (dy / d) * force;
+				}
+			}
+
+			const tw = 0.5 + 0.5 * Math.sin(t * 0.001 * p.speed + p.phase);
+			const alpha = p.a * (0.35 + 0.65 * tw);
+			ctx.beginPath();
+			ctx.fillStyle = `rgba(220, 220, 240, ${alpha.toFixed(3)})`;
+			ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+			ctx.fill();
+		}
+
+		// Draw connecting lines between close particles
+		const maxDist = 110;
+		for (let i = 0; i < particles.length; i++) {
+			const a = particles[i];
+			for (let j = i + 1; j < particles.length; j++) {
+				const b = particles[j];
+				const dx = a.x - b.x;
+				const dy = a.y - b.y;
+				const d = Math.hypot(dx, dy);
+				if (d < maxDist) {
+					const alpha = (1 - d / maxDist) * 0.12;
+					ctx.strokeStyle = `rgba(200, 210, 255, ${alpha.toFixed(3)})`;
+					ctx.lineWidth = 0.6;
+					ctx.beginPath();
+					ctx.moveTo(a.x, a.y);
+					ctx.lineTo(b.x, b.y);
+					ctx.stroke();
+				}
+			}
+		}
+	}
+
+	function onMove(e: PointerEvent) {
+		if (!rootEl) return;
+		const rect = rootEl.getBoundingClientRect();
+		mouseX = e.clientX - rect.left;
+		mouseY = e.clientY - rect.top;
+	}
+
+	resize();
+	raf = requestAnimationFrame(step);
+
+	const ro = new ResizeObserver(resize);
+	if (rootEl) ro.observe(rootEl);
+
+	window.addEventListener("pointermove", onMove, { passive: true });
+
+	return () => {
+		cancelAnimationFrame(raf);
+		ro.disconnect();
+		window.removeEventListener("pointermove", onMove);
+	};
+});
 </script>
 
 {#if enabled}
